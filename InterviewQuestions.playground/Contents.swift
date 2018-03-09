@@ -1,4 +1,4 @@
-//: Playground - noun: a place where people can play
+//: List Playground - noun: a place where people can play... with lists
 
 import UIKit
 
@@ -46,7 +46,7 @@ while nextNode != nil {
     nextNode = nextNode!.rightNode
 }
 
-print("")
+print("\n")
 print("Q: Reverse a linked list")
 print("INPUT : ->30->25->20->15->10->5")
 print("OUTPUT: ->5->10->15->20->25->30")
