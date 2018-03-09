@@ -6,49 +6,101 @@ print("--------- WELCOME TO CODING INTERVIEW PALOOZA ---------")
 
 print("Q: Create a linked list")
 print("INPUT :  [30,25,20,15,10,5]")
-print("OUTPUT:  ->30->25->20->15->10->5")
+print("OUTPUT:  30->25->20->15->10->5")
 
 var inputValues: [Int] = [30,25,20,15,10,5]
 
 class Node {
-    var leftNode: Node?
-    var rightNode: Node?
+    var previous: Node?
+    var next: Node?
     var value: Int
     
-    init(left: Node?, right: Node?, value: Int) {
-        self.leftNode = left
-        self.rightNode = right
-        self.value = value
+    init(value: Int) {
+      self.value = value
     }
 }
 
-var value: Int = inputValues.popLast()!
-var lastNode: Node?
-while inputValues.count > 0 {
-    value = inputValues.popLast()!
-    
-    let nextNode: Node = Node(left: nil, right: lastNode, value: value)
-    
-    if(lastNode != nil) {
-        lastNode!.leftNode = nextNode
+class LinkedList {
+    public var head: Node?
+    public var tail: Node?
+
+    public func isEmpty() -> Bool {
+        return true
     }
     
-    lastNode = nextNode
-}
+    public var first: Node? {
+        return head
+    }
 
-let head: Node = lastNode!
+    public var last: Node? {
+        return tail
+    }
 
-var nextNode: Node? = head
-while nextNode != nil {
-    let terminator: String = nextNode!.rightNode != nil ? "->" : ""
-    print(nextNode!.value, terminator: terminator)
+    public func count() -> Int {
+        var count: Int = 0
+        
+        var node = head
+        while node != nil {
+            count = count + 1
+            node = node!.next
+        }
+
+        return count
+    }
     
-    nextNode = nextNode!.rightNode
+    public func nodeAt(index: Int) -> Node {
+        var count: Int = 0
+        
+        var node = head
+        while count < index {
+            node = node!.next
+            count = count + 1
+        }
+        
+        return node!
+    }
+
+    public func append(value: Int) {
+        let newNode: Node = Node(value: value)
+        if let tailNode = tail {
+            newNode.previous = tailNode
+            tailNode.next = newNode
+        } else {
+            head = newNode
+        }
+        
+        self.tail = newNode
+    }
+
+    public func appendFromArray(values: [Int]) {
+        for item in values {
+            self.append(value: item)
+        }
+    }
 }
+
+extension LinkedList: CustomStringConvertible {
+    public var description: String {
+        var text = ""
+        var node = head
+        
+        while node != nil {
+            text += "\(node!.value)"
+            node = node!.next
+            if node != nil { text += "->" }
+        }
+        return text
+    }
+}
+
+let linkedList: LinkedList = LinkedList()
+linkedList.appendFromArray(values: inputValues)
+print(linkedList)
+let node = linkedList.nodeAt(index: 5)
+print(node.value)
+
 
 print("\n")
 print("Q: Reverse a linked list")
-print("INPUT : ->30->25->20->15->10->5")
-print("OUTPUT: ->5->10->15->20->25->30")
-
-
+print("INPUT : 30->25->20->15->10->5")
+print("OUTPUT: 5->10->15->20->25->30")
